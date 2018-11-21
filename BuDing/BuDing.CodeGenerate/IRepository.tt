@@ -1,0 +1,59 @@
+﻿<#@ template  debug="true" hostSpecific="true" language="C#" #>
+<#@ include file="CodeTemplates/MultipleOutputHelper.ttinclude" #>
+<#@ include file="CodeTemplates/DBSchema.ttinclude" #>
+<#@ include file="CodeTemplates/CommonAttr.ttinclude" #>
+<#@ output extension=".cs" #>
+<# 
+    //不生成则退出
+    if (!Attributes.IsGo) return "";
+    //命名空间
+    var nsName = "BuDing.Repository.Contract";
+    //实例化生成模板
+	var manager = Manager.Create(Host, GenerationEnvironment);// { OutputPath = Path.GetDirectoryName(Host.TemplateFile)};
+    //获取连接的数据库
+    var dbSchema = DBSchemaFactory.GetDBSchema(Attributes.DbType);
+    //获取数据库下的所有表
+    var entities = dbSchema.GetTables(Attributes.DbName);
+    //实体名
+    var entityName = "";
+
+    foreach(Table entity in entities)
+    {
+        //只生成指定的表实体
+        if (!Attributes.TableNames.Equals("*") && !Attributes.TableNames.Contains("," + entity.TableName + ","))
+            continue;
+        //生成实体名
+        entityName = GetPropertyPascialName(entity.TableName);
+        manager.StartNewFile("I"+entityName+"Repository" + ".cs");
+    
+#>
+//-----------------------------------------------------------------------
+// <copyright file="I<#= entity.TableName #>Repository.cs">
+// * Copyright (C) <#= Attributes.Copyright #>
+// * version : <#= Attributes.Version #>
+// * author  : <#= Attributes.Author #>
+// * FileName: <#= entityName #>.cs
+// * history : Created by T4 <#= DateTime.Now #> 
+// </copyright>
+//-----------------------------------------------------------------------
+using System; 
+
+namespace <#= nsName #>Repository
+{
+	using BuDing.Sunrise.Models;
+	using BuDing.Infrustructure.Contract.DataLogic;
+
+    /// <summary>
+    /// <#= entityName #>Repository Entity Repository
+    /// </summary> 
+    public partial interface I<#= entityName #>Repository:IRepository<<#=entityName #>>
+    {
+ 
+    }
+}
+<# 
+        manager.EndBlock();
+    }
+
+    manager.Process(true,true);
+#> 

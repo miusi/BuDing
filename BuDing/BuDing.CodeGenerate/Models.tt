@@ -1,0 +1,95 @@
+﻿<#@ template  debug="true" hostSpecific="true" language="C#" #>
+<#@ include file="CodeTemplates/MultipleOutputHelper.ttinclude" #>
+<#@ include file="CodeTemplates/DBSchema.ttinclude" #>
+<#@ include file="CodeTemplates/CommonAttr.ttinclude" #>
+<#@ output extension=".cs" #>
+<# 
+    //不生成则退出
+    if (!Attributes.IsGo) return "";
+    //命名空间
+    var nsName = Attributes.ProName + ".Models";
+    //实例化生成模板
+	var manager = Manager.Create(Host, GenerationEnvironment);// { OutputPath = Path.GetDirectoryName(Host.TemplateFile)};
+    //获取连接的数据库
+    var dbSchema = DBSchemaFactory.GetDBSchema(Attributes.DbType);
+    //获取数据库下的所有表
+    var entities = dbSchema.GetTables(Attributes.DbName);
+    //实体名
+    var entityName = "";
+
+    foreach(Table entity in entities)
+    {
+        //只生成指定的表实体
+        if (!Attributes.TableNames.Equals("*") && !Attributes.TableNames.Contains("," + entity.TableName + ","))
+            continue;
+        //生成实体名
+        entityName = GetPropertyPascialName(entity.TableName);
+        manager.StartNewFile(entityName + ".cs");
+        Column pkCol = entity.Columns.Find(c => c.IsPK);
+        foreach (var col in entity.Columns)
+        {
+            if (col.IsPK)
+            {
+                pkCol = col;
+                break;
+            }
+        }
+#>
+//-----------------------------------------------------------------------
+// <copyright file="<#= entity.TableName #>.cs">
+// * Copyright (C) <#= Attributes.Copyright #>
+// * version : <#= Attributes.Version #>
+// * author  : <#= Attributes.Author #>
+// * FileName: <#= entityName #>.cs
+// * history : Created by T4 <#= DateTime.Now #> 
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace <#= nsName #>
+{
+    /// <summary>
+    /// <#= entityName #> Entity Model
+    /// </summary>
+    [Serializable]
+    [Table("<#= entity.TableName #>")]
+    public partial class <#= entityName #>
+    {
+        public <#= entityName #>() { }
+<# 
+        for (int i = 0; i < entity.Columns.Count; i++)
+        {
+#>
+        
+        /// <summary>
+        /// <#= entity.Columns[i].Comment #>
+        /// </summary>
+<#
+        if (pkCol.Name == entity.Columns[i].Name)
+        {
+#>
+        [Key]  
+<#
+        }
+#>
+<#
+		if(!string.IsNullOrWhiteSpace(entity.Columns[i].Length)){
+ #>
+        [StringLength(<#=entity.Columns[i].Length #>)]
+<#												
+		} 
+#>
+        public <#= entity.Columns[i].Type #> <#= entity.Columns[i].Name #> { get; set; }
+<# 
+        }
+#>
+    }
+}
+<# 
+        manager.EndBlock();
+    }
+
+    manager.Process(true,true);
+#> 

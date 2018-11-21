@@ -1,0 +1,49 @@
+﻿﻿<# // ResourceGenerator from https://github.com/damieng/DamienGKit/tree/master/T4/ResourceGenerator
+#><#@include file="MultipleOutputHelper.ttinclude"
+#><#@ assembly name="System.Core"
+#><#@ assembly name="EnvDTE"
+#><#@ assembly name="System.Xml"
+#><#@ assembly name="System.Xml.Linq"
+#><#@ import namespace="System"
+#><#@ import namespace="System.Collections.Generic"
+#><#@ import namespace="System.IO"
+#><#@ import namespace="System.Linq"
+#><#@ import namespace="System.Text"
+#><#@ import namespace="System.Xml.Linq"
+#><#@ import namespace="Microsoft.VisualStudio.TextTemplating"
+#><#+
+
+class Resources {
+    public static IEnumerable<Resource> Named(string[] resourceNames, string path, string extension) {
+        foreach (var resourceName in resourceNames)
+            yield return new Resource(resourceName, Path.Combine(path, resourceName + extension));
+    }
+
+    public class Resource {
+        public Resource(string name, string fileName) {
+            Name = name;
+            if (!File.Exists(fileName))
+                throw new Exception(String.Format("Resource file '{0}' could not be found.", fileName));
+            Entries = XDocument.Load(fileName).Root.Elements()
+                .Where(e => e.Name == "data")
+                .Select(c => new Entry(c.Attribute("name").Value, (string)c.Element("value"), (string)c.Element("comment")))
+                .ToList();
+        }
+
+        public string Name { get; private set; }
+        public IEnumerable<Entry> Entries { get; private set; }
+    }
+}
+
+public class Entry {
+	public string PropertyName { get { return KeyName; } }
+	public string KeyName { get; private set; }
+	public string Value { get; private set; }
+	public string Comment { get; private set; }
+
+	public Entry(string name, string value, string comment) {
+		KeyName = name;
+		Value = value;
+		Comment = comment;
+	}
+} #>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuDing.Framework\BuDing.Framework.csproj" />
+    <ProjectReference Include="..\BuDing.Infrustructure.Contract\BuDing.Infrustructure.Contract.csproj" />
+    <ProjectReference Include="..\BuDing.Repository.EF\BuDing.Repository.EF.csproj" />
+    <ProjectReference Include="..\BuDing.Sunrise.Models\BuDing.Sunrise.Models.csproj" />
+  </ItemGroup>
+
+</Project>
