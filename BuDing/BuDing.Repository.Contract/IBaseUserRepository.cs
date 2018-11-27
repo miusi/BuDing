@@ -12,7 +12,7 @@ using System;
 namespace BuDing.Repository.ContractRepository
 {
 	using BuDing.Sunrise.Models;
-	using BuDing.Infrustructure.Contract.DataLogic;
+	using BuDing.Infrustructure.DataLogic;
 
 	/// <summary>
 	/// BaseUserRepository Entity Repository

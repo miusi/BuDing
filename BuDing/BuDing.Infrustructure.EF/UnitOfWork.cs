@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BuDing.Infrustructure.EF
 { 
-	using BuDing.Infrustructure.Contract.DataLogic;
+	using BuDing.Infrustructure.DataLogic;
 
 	public class UnitOfWork : IUnitOfWork
 	{
@@ -32,6 +32,11 @@ namespace BuDing.Infrustructure.EF
 		public void RollBack()
 		{
 			_context.Database.RollbackTransaction();
+		}
+
+		public void SaveChanges()
+		{
+			_context.SaveChanges();
 		}
 	}
 }

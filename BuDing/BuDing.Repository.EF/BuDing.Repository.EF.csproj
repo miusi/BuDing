@@ -10,6 +10,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuDing.Framework\BuDing.Framework.csproj" />
+    <ProjectReference Include="..\BuDing.Infrustructure.EF\BuDing.Infrustructure.EF.csproj" />
+    <ProjectReference Include="..\BuDing.Repository.Contract\BuDing.Repository.Contract.csproj" />
+    <ProjectReference Include="..\BuDing.Sunrise.Models\BuDing.Sunrise.Models.csproj" />
   </ItemGroup>
 
 </Project>

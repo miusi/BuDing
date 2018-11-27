@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>@ViewData["Title"] - BuDing.Sunrise.Web</title> 
+	<!-- plugins:css -->
+	<environment include="Development">
+		<link rel="stylesheet" href="vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+		<link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+	</environment>
+	<!-- endinject -->
+	<!-- inject:css -->
+	<environment include="Development">
+		<link rel="stylesheet" href="css/style.css" asp-append-version="true">
+	</environment>
+	<!-- endinject -->
+
+	<environment include="Development">
+		<link rel="shortcut icon" href="images/favicon.png" />
+	</environment>
+</head>
+<body>
+	<div class="container-scroller">
+		<!-- partial:partials/_navbar.html -->
+		<partial name="_BuDing_Navbar" />
+		<!-- partial -->
+		<div class="container-fluid page-body-wrapper">
+			<!-- partial:partials/_sidebar.html -->
+			<partial name="_BuDing_Sidebar" />
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					@RenderBody()
+				</div>
+				<!-- content-wrapper ends -->
+				<!-- partial:partials/_footer.html -->
+				<partial name="_BuDing_Footer" />
+				<!-- partial -->
+			</div>
+			<!-- main-panel ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+	<!-- plugins:js -->
+	<environment include="Development">
+		<script src="vendors/js/vendor.bundle.base.js"></script>
+		<script src="vendors/js/vendor.bundle.addons.js"></script>
+	</environment>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<environment include="Development">
+		<script src="js/off-canvas.js"></script>
+		<script src="js/misc.js"></script>
+	</environment>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+
+	<environment include="Development">
+		<script src="js/dashboard.js" asp-append-version="true"></script>
+	</environment>
+	<!-- End custom js for this page-->
+
+	@RenderSection("Scripts", required: false)
+</body>
+
+</html>
