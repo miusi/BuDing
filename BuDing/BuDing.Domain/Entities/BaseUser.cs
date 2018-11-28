@@ -19,17 +19,10 @@ namespace BuDing.Domain.Entities
     /// </summary>
     [Serializable]
     [Table("base_user")]
-    public partial class BaseUser
+    public partial class BaseUser:BaseEntity
     {
         public BaseUser() { }
-        
-        /// <summary>
-        /// ID
-        /// </summary>
-        [Key]  
-        [StringLength(20)]
-        public string ID { get; set; }
-        
+          
         /// <summary>
         /// 用户名
         /// </summary>
@@ -92,40 +85,6 @@ namespace BuDing.Domain.Entities
         /// 最后登录IP
         /// </summary>
         [StringLength(20)]
-        public string LastLoginIP { get; set; }
-        
-        /// <summary>
-        /// 创建日期
-        /// </summary>
-        public DateTime? CreateOn { get; set; }
-        
-        /// <summary>
-        /// 创建人ID
-        /// </summary>
-        [StringLength(20)]
-        public string CreateUserId { get; set; }
-        
-        /// <summary>
-        /// 创建人名称
-        /// </summary>
-        [StringLength(50)]
-        public string CreateBy { get; set; }
-        
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        public DateTime? ModifiedOn { get; set; }
-        
-        /// <summary>
-        /// 更新人Id
-        /// </summary>
-        [StringLength(20)]
-        public string ModifiedUserId { get; set; }
-        
-        /// <summary>
-        /// 更新人名称
-        /// </summary>
-        [StringLength(50)]
-        public string ModifiedBy { get; set; }
+        public string LastLoginIP { get; set; } 
     }
 }

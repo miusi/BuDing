@@ -18,16 +18,10 @@ namespace BuDing.Domain.Entities
     /// </summary>
     [Serializable]
     [Table("sys_module")]
-    public partial class SysModule
+    public partial class SysModule: BaseEntity
     {
         public SysModule() { }
-        
-        /// <summary>
-        /// ID
-        /// </summary>
-        [Key]  
-        public int? ID { get; set; }
-        
+          
         /// <summary>
         /// 上级ID
         /// </summary>
@@ -111,39 +105,5 @@ namespace BuDing.Domain.Entities
         [StringLength(300)]
         public string Remark { get; set; }
         
-        /// <summary>
-        /// 创建日期
-        /// </summary>
-        public DateTime? CreateOn { get; set; }
-        
-        /// <summary>
-        /// 创建人ID
-        /// </summary>
-        [StringLength(20)]
-        public string CreateUserId { get; set; }
-        
-        /// <summary>
-        /// 创建人名称
-        /// </summary>
-        [StringLength(50)]
-        public string CreateBy { get; set; }
-        
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        [StringLength(20)]
-        public string ModifiedOn { get; set; }
-        
-        /// <summary>
-        /// 更新人Id
-        /// </summary>
-        [StringLength(20)]
-        public string ModifiedUserId { get; set; }
-        
-        /// <summary>
-        /// 更新人名称
-        /// </summary>
-        [StringLength(50)]
-        public string ModifiedBy { get; set; }
     }
 }
