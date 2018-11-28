@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace BuDing.Infrustructure.DataService
+namespace BuDing.Infrastructure.DataService
 {
 	public interface IDataService
 	{
