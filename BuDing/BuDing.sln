@@ -15,13 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9BE4E7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{5CDB5F47-5CDC-4F74-B0E3-D76E9DAFDECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuDing.Application", "BuDing.Application\BuDing.Application.csproj", "{95249E61-AD52-4D9C-A333-52F8EDFAE345}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuDing.Application", "BuDing.Application\BuDing.Application.csproj", "{95249E61-AD52-4D9C-A333-52F8EDFAE345}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuDing.Application.Interfaces", "BuDing.Application.Interfaces\BuDing.Application.Interfaces.csproj", "{AA799345-0E56-4B7B-9986-0C44A431B515}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuDing.Application.Interfaces", "BuDing.Application.Interfaces\BuDing.Application.Interfaces.csproj", "{AA799345-0E56-4B7B-9986-0C44A431B515}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuDing.Application.IoC", "BuDing.Application.IoC\BuDing.Application.IoC.csproj", "{D950B6B6-2683-4D26-BC80-5DCC8EF54008}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuDing.Domain", "BuDing.Domain\BuDing.Domain.csproj", "{195AF6DF-A1EE-45D8-B232-24EB7766B941}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuDing.Domain", "BuDing.Domain\BuDing.Domain.csproj", "{195AF6DF-A1EE-45D8-B232-24EB7766B941}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +47,6 @@ Global
 		{AA799345-0E56-4B7B-9986-0C44A431B515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA799345-0E56-4B7B-9986-0C44A431B515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA799345-0E56-4B7B-9986-0C44A431B515}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D950B6B6-2683-4D26-BC80-5DCC8EF54008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D950B6B6-2683-4D26-BC80-5DCC8EF54008}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D950B6B6-2683-4D26-BC80-5DCC8EF54008}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D950B6B6-2683-4D26-BC80-5DCC8EF54008}.Release|Any CPU.Build.0 = Release|Any CPU
 		{195AF6DF-A1EE-45D8-B232-24EB7766B941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{195AF6DF-A1EE-45D8-B232-24EB7766B941}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{195AF6DF-A1EE-45D8-B232-24EB7766B941}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -66,7 +60,6 @@ Global
 		{93DA0AAC-02A0-45C9-B9AC-8951FF672282} = {9BE4E79A-0DBE-42CF-821B-AB50C79A9616}
 		{95249E61-AD52-4D9C-A333-52F8EDFAE345} = {5CDB5F47-5CDC-4F74-B0E3-D76E9DAFDECC}
 		{AA799345-0E56-4B7B-9986-0C44A431B515} = {5CDB5F47-5CDC-4F74-B0E3-D76E9DAFDECC}
-		{D950B6B6-2683-4D26-BC80-5DCC8EF54008} = {5CDB5F47-5CDC-4F74-B0E3-D76E9DAFDECC}
 		{195AF6DF-A1EE-45D8-B232-24EB7766B941} = {5CDB5F47-5CDC-4F74-B0E3-D76E9DAFDECC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
