@@ -7,7 +7,7 @@ namespace BuDing.Infrastructure.PageList
     public interface IPagedList<T>
     {
         /// <summary>
-        /// 总页数
+        /// 页码起始
         /// </summary>
         int IndexFrom { get; }
 

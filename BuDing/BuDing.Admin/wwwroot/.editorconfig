@@ -1,4 +1,6 @@
 # http://editorconfig.org
+
+# babel-loader 配置
 root = true
 
 [*]

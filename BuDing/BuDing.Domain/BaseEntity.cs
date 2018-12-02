@@ -18,7 +18,7 @@ namespace BuDing.Domain
         [Key]
         [StringLength(20)]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int ID { get; set; }
+		public override int ID { get; set; }
 
 
         /// <summary>

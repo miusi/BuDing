@@ -1,7 +1,10 @@
-﻿using System;
+﻿using BuDing.Infrastructure.PageList;
+using Microsoft.EntityFrameworkCore.Query;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BuDing.Infrastructure.DataLogic
@@ -39,13 +42,46 @@ namespace BuDing.Infrastructure.DataLogic
         Task<TEntity> FisrtOrDefaultAsync(Expression<Func<TEntity, bool>> filter);
 
 
-        Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id); 
+        Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id);
 
-        #endregion
+		IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> filter = null,
+									 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+									 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+									 int pageIndex = 0,
+									 int pageSize = 20,
+									 bool disableTracking = true);
 
-        #region Insert
+		Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> filter = null,
+												 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+												 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+												 int pageIndex = 0,
+												 int pageSize = 20,
+												 bool disableTracking = true,
+												 CancellationToken cancellationToken = default(CancellationToken));
 
-        TEntity Insert(TEntity entity);
+
+		IPagedList<TResult> GetPagedList<TResult>(Expression<Func<TEntity, TResult>> selector,
+												Expression<Func<TEntity, bool>> filter = null,
+												Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+												Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+												int pageIndex = 0,
+												int pageSize = 20,
+												bool disableTracking = true) where TResult : class;
+
+		Task<IPagedList<TResult>> GetPagedListAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
+														 Expression<Func<TEntity, bool>> filter = null,
+														 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+														 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+														 int pageIndex = 0,
+														 int pageSize = 20,
+														 bool disableTracking = true,
+														 CancellationToken cancellationToken = default(CancellationToken)) where TResult : class;
+
+		#endregion
+
+		#region Insert
+
+		TEntity Insert(TEntity entity);
 
         Task<TEntity> InertAsync(TEntity entity);
 

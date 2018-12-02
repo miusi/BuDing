@@ -1,0 +1,26 @@
+﻿using BuDing.Domain.Entities;
+using BuDing.Infrastructure.PageList;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BuDing.Application.Interfaces.BusinessLogic
+{
+	interface ISysUserBusinessLogic
+	{
+		Task<SysUserEntity> GetSysUserById(int id);
+
+
+		Task<SysUserEntity> Insert(SysUserEntity entity);
+
+		Task<SysUserEntity> Update(SysUserEntity entity);
+
+		Task<int> Delete(SysUserEntity entity);
+
+		Task<IPagedList<SysUserEntity>> GetPagedList(int pageIndex, int pageSize);
+
+		Task<IPagedList<SysUserEntity>>  GetPagedListByUserName(string userName,int pageIndex,int pageSize);
+
+	}
+}

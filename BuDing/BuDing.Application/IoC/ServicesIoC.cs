@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using BuDing.Application.BusinessLogics.Domain;
-using BuDing.Application.Services.Standard;
+using System.Text; 
 using BuDing.Infrastructure.DataLogic;
 using BuDing.Infrastructure.DataService;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +10,11 @@ namespace BuDing.Application.IoC
 {
     public static class ServicesIoC
     {
-        public static void ApplicationServicesIoC(this IServiceCollection services)
-        {
-            services.AddScoped(typeof(IDataService<>), typeof(BaseBusinessLogic<>)); 
-            services.AddScoped<BaseUserLogic, BaseUserLogic>(); 
-        }
+        //public static void ApplicationServicesIoC(this IServiceCollection services)
+        //{
+        //    services.AddScoped(typeof(IDataService<>), typeof(BaseBusinessLogic<>)); 
+        //    services.AddScoped<BaseUserLogic, BaseUserLogic>(); 
+        //}
 
         public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services)
             where TContext : DbContext
