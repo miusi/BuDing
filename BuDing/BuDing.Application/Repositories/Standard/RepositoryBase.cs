@@ -3,92 +3,221 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using BuDing.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace BuDing.Application.Repositories.Standard
 {
     using BuDing.Infrastructure.DataLogic;
 
-    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
-	{
-		protected DbContext Context;
-		protected DbSet<TEntity> DbSet;
+    public abstract class RepositoryBase<TEntity,TPrimaryKey> : IRepository<TEntity,TPrimaryKey> where TEntity : class,IEntity<TPrimaryKey>,IAggregateRoot<TPrimaryKey>
+    {
+        public abstract IQueryable<TEntity> GetAll();
 
-	    protected RepositoryBase(DbContext context)
-		{
-			this.Context = context;
-			this.DbSet = context.Set<TEntity>();
-		}
 
-		public void Delete(object id)
-		{
-			TEntity entityToDelete = DbSet.Find(id);
-			Delete(entityToDelete);
-		}
+        /// <summary>
+        /// Changes the table name. This require the tables in the same database.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <remarks>
+        /// This only been used for supporting multiple tables in the same model. This require the tables in the same database.
+        /// </remarks>
+        public abstract void ChangeTable(string table);
+         
 
-		public void Delete(TEntity entityToDelete)
-		{
-			if (Context.Entry(entityToDelete).State == EntityState.Deleted)
-			{
-				DbSet.Attach(entityToDelete);
-			}
-			DbSet.Remove(entityToDelete);
-		} 
-		public TEntity GetEntityById(object id)
-		{
-			return DbSet.Find(id);
-		}
 
-		public IEnumerable<TEntity> GetEnumerableCollection(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
-		{
-			var query = GetQueryableCollection(filter, orderBy, includeProperties);
+        public virtual List<TEntity> GetAllList()
+        {
+            return GetAll().ToList();
+        }
 
-			return query.ToList<TEntity>();
-		}
 
-		public IList<TEntity> GetListCollection(Expression<Func<TEntity, bool>> filter = null,string includeProperties = "")
-		{
-			var query = GetQueryableCollection(filter, null, includeProperties);
+        public virtual Task<List<TEntity>> GetAllListAsync()
+        {
+            return Task.FromResult(GetAllList());
+        }
 
-			return query.ToList<TEntity>();
-		}
+        public virtual TEntity GetEntityById(TPrimaryKey id)
+        {
+            var entity = FirstOrDefault(id);
+            return entity;
+        }
 
-		public IQueryable<TEntity> GetQueryableCollection(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
-		{
-			IQueryable<TEntity> query = DbSet;
+	    public virtual async Task<TEntity> GetEntityByIdAsync(TPrimaryKey id)
+	    {
+	        var entity = await FirstOrDefaultAsync(id);
 
-			foreach (var includeProperty in includeProperties.Split(new char[] { ',' }))
-			{
-				query = query.Include(includeProperty);
-			}
+	        return entity;
+	    }
 
-			if (orderBy != null)
-			{
-				query = orderBy(query);
-			}
 
-			return query;
-		}
 
-		public IEnumerable<TEntity> GetWithRawSql(string query, params object[] parameters)
-		{
-			return DbSet.FromSql(query, parameters);
-		}
+	    public virtual IList<TEntity> GetListCollection(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+	    {
+	        IQueryable<TEntity> query = GetAll();
 
-		public void Insert(TEntity entity)
-		{
-			DbSet.Add(entity);
-		}
+	        if (filter != null)
+	        {
+	            query = query.Where(filter);
+	        }
 
-		public void Update(TEntity entityToUpdate)
-		{
-			DbSet.Attach(entityToUpdate);
-			Context.Entry(entityToUpdate).State = EntityState.Modified;
-		}
+	        foreach (var includeProperty in includeProperties.Split(new char[]{','}))
+	        {
+	            query = query.Include(includeProperty);
+	        }
 
-		public int UpdateFields(string query, params object[] parameters)
-		{
-			return Context.Database.ExecuteSqlCommand(query, parameters);
-		}
+	        if (orderBy != null)
+	        {
+	            query = orderBy(query);
+	        }
+
+	        return query.ToList();
+	    }
+
+	    public virtual Task<IList<TEntity>> GetListCollectionAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+	    {
+	        return Task.FromResult(GetListCollection(filter, orderBy, includeProperties));
+	    }
+
+	    public virtual T Query<T>(Func<IQueryable<TEntity>, T> queryMethod)
+	    {
+	        return queryMethod(GetAll());
+	    }
+
+	    public virtual TEntity FirstOrDefault(TPrimaryKey id)
+	    {
+	        var entity = GetAll().FirstOrDefault(CreateEqualityExpressionForId(id));
+	        return entity;
+	    }
+
+	    public virtual TEntity FisrtOrDefault(Expression<Func<TEntity, bool>> filter)
+	    {
+	        return GetAll().FirstOrDefault(filter);
+	    }
+
+	    public virtual Task<TEntity> FisrtOrDefaultAsync(Expression<Func<TEntity, bool>> filter)
+	    {
+	        return Task.FromResult(FisrtOrDefault(filter));
+	    }
+
+	    public virtual Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
+	    {
+	        return Task.FromResult(FirstOrDefault(id));
+	    }
+
+     //   public abstract IList<TEntity> GetWithRawSql(string query, params object[] parameters);
+
+	    //public virtual Task<IList<TEntity>> GetWithRawSqlAsync(string query, params object[] parameters)
+	    //{
+	    //    return Task.FromResult(GetWithRawSql(query, parameters));
+	    //}
+
+        public abstract TEntity Insert(TEntity entity);
+
+	    public virtual Task<TEntity> InertAsync(TEntity entity)
+	    {
+	        return Task.FromResult(Insert(entity));
+	    }
+
+	    public virtual TPrimaryKey InsertAndGetId(TEntity entity)
+	    {
+	        return Insert(entity).ID;
+	    }
+
+	    public virtual Task<TPrimaryKey> InsertAndGetIdAsync(TEntity entity)
+	    {
+	        return Task.FromResult(InsertAndGetId(entity));
+	    }
+
+        public abstract TEntity Update(TEntity entityToUpdate);
+
+	    public virtual Task<TEntity> UpdateAsync(TEntity entityToUpdate)
+	    {
+	        return Task.FromResult(Update(entityToUpdate));
+        }
+
+        //public abstract int UpdateFields(string query, params object[] parameters);
+
+
+        public abstract void Delete(TEntity entity);
+
+	    public virtual Task DeleteAsync(TEntity entity)
+	    {
+	        Delete(entity);
+	        return Task.FromResult(0);
+	    }
+
+        public abstract void Delete(TPrimaryKey id);
+
+	    public virtual Task DeleteAsync(TPrimaryKey id)
+	    {
+            Delete(id);
+	        return Task.FromResult(0);
+	    }
+
+	    public virtual void Delete(Expression<Func<TEntity, bool>> filter)
+	    {
+            //批量
+	        foreach (var entity in GetAll().Where(filter).ToList())
+	        {
+	            Delete(entity);
+	        }
+        }
+
+	    public virtual Task DeleteAsync(Expression<Func<TEntity, bool>> filter)
+	    {
+	        Delete(filter);
+	        return Task.FromResult(0);
+        }
+
+	    public virtual int Count()
+	    {
+	        return GetAll().Count();
+	    }
+
+	    public virtual Task<int> CountAsync()
+	    {
+	        return Task.FromResult(Count());
+        }
+
+	    public virtual int Count(Expression<Func<TEntity, bool>> filter)
+	    {
+	        return GetAll().Where(filter).Count();
+        }
+
+	    public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> filter)
+	    {
+	        return Task.FromResult(Count(filter));
+        }
+
+	    public virtual long LongCount()
+	    {
+	        return GetAll().LongCount();
+        }
+
+	    public virtual Task<long> LongCountAsync()
+	    {
+	        return Task.FromResult(LongCount());
+        }
+
+	    public virtual long LongCount(Expression<Func<TEntity, bool>> filter)
+	    {
+	        return GetAll().Where(filter).LongCount();
+        }
+
+	    public virtual Task<long> LongCountAsync(Expression<Func<TEntity, bool>> filter)
+	    {
+	        return Task.FromResult(LongCount(filter));
+        }
+
+        protected static Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TPrimaryKey id)
+        {
+            var lambdaParam = Expression.Parameter(typeof(TEntity));
+            var lambdaBody = Expression.Equal(Expression.PropertyOrField(lambdaParam, "ID"),
+                Expression.Constant(id, typeof(TPrimaryKey)));
+
+            return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
+        }
 	}
 }

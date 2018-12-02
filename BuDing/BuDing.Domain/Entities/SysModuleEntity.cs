@@ -18,9 +18,9 @@ namespace BuDing.Domain.Entities
     /// </summary>
     [Serializable]
     [Table("sys_module")]
-    public partial class SysModule: BaseEntity
+    public partial class SysModuleEntity: BaseEntity
     {
-        public SysModule() { }
+        public SysModuleEntity() { }
           
         /// <summary>
         /// 上级ID

@@ -17,7 +17,7 @@ namespace BuDing.Application.Interfaces.IRepositories
     /// <summary>
     /// BaseUserRepository Entity Repository
     /// </summary> 
-    public partial interface IBaseUserRepository:IRepository<BaseUser>
+    public partial interface IBaseUserRepository:IRepository<BaseUserEntity>
     {
  
     }

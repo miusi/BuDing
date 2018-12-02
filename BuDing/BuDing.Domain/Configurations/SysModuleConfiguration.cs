@@ -18,9 +18,9 @@ namespace BuDing.Domain.Configurations
     /// <summary>
     /// SysModuleConfiguration Entity Repository
     /// </summary> 
-    public class SysModuleConfiguration:IEntityTypeConfiguration<SysModule>
+    public class SysModuleConfiguration:IEntityTypeConfiguration<SysModuleEntity>
     {
- 		public void Configure(EntityTypeBuilder<SysModule> builder)
+ 		public void Configure(EntityTypeBuilder<SysModuleEntity> builder)
 		{
 
 				builder.HasKey(e => e.ID);	

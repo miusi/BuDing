@@ -18,9 +18,9 @@ namespace BuDing.Domain.Configurations
     /// <summary>
     /// SysRoleConfiguration Entity Repository
     /// </summary> 
-    public class SysRoleConfiguration:IEntityTypeConfiguration<SysRole>
+    public class SysRoleConfiguration:IEntityTypeConfiguration<SysRoleEntity>
     {
- 		public void Configure(EntityTypeBuilder<SysRole> builder)
+ 		public void Configure(EntityTypeBuilder<SysRoleEntity> builder)
 		{
 
 				builder.HasKey(e => e.ID);	

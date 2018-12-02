@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BuDing.Infrastructure;
+using System; 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace BuDing.Domain
 {
-    public abstract class BaseEntity:IEntity
+    public abstract class BaseEntity:Entity,IAggregateRoot
     {
         protected BaseEntity()
         {
@@ -18,7 +18,7 @@ namespace BuDing.Domain
         [Key]
         [StringLength(20)]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public string ID { get; set; }
+		public int ID { get; set; }
 
 
         /// <summary>
@@ -54,5 +54,7 @@ namespace BuDing.Domain
         /// </summary>
         [StringLength(50)]
         public string ModifiedBy { get; set; }
+
+
     }
 }

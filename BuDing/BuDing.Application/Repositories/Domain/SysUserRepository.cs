@@ -7,7 +7,7 @@ namespace BuDing.Application.Repositories.Domain
     using BuDing.Application.Repositories.Standard;
     using BuDing.Application.Interfaces.IRepositories;
 
-    public class SysUserRepository : RepositoryBase<SysUser>, ISysUserRepository
+    public class SysUserRepository : EfCoreRepository<SysUserEntity>, ISysUserRepository
 	{
 		public SysUserRepository(BuDingContext context) : base(context)
 		{

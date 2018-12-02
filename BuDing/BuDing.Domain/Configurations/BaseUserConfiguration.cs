@@ -19,9 +19,9 @@ namespace BuDing.Domain.Configurations
     /// <summary>
 	/// BaseUserConfiguration Entity Repository
 	/// </summary> 
-	public class BaseUserConfiguration : IEntityTypeConfiguration<BaseUser>
+	public class BaseUserConfiguration : IEntityTypeConfiguration<BaseUserEntity>
 	{
-		public void Configure(EntityTypeBuilder<BaseUser> builder)
+		public void Configure(EntityTypeBuilder<BaseUserEntity> builder)
 		{
 
 			builder.HasKey(e => e.ID);

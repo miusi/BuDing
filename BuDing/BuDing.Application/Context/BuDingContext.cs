@@ -1,6 +1,8 @@
 ﻿ 
 
 
+using BuDing.Domain.Configurations;
+
 namespace BuDing.Application.Context
 {
     using BuDing.Domain.Entities;
@@ -14,10 +16,15 @@ namespace BuDing.Application.Context
 
 		}
 
+        public DbSet<SysUserEntity> SysUsers { get; set; }
+
+        public DbSet<SysRoleEntity> SysRoles { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<SysUser>().ToTable("sys_user");
-			modelBuilder.Entity<SysRole>().ToTable("sys_role");
+            base.OnModelCreating(modelBuilder);
+		    modelBuilder.ApplyConfiguration<SysUserEntity>(new SysUserConfiguration());
+		    modelBuilder.ApplyConfiguration<SysRoleEntity>(new SysRoleConfiguration());
 		}
 	}
 }

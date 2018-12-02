@@ -18,9 +18,9 @@ namespace BuDing.Domain.Entities
     /// </summary>
     [Serializable]
     [Table("sys_role")]
-    public partial class SysRole: BaseEntity
+    public partial class SysRoleEntity: BaseEntity
     {
-        public SysRole() { } 
+        public SysRoleEntity() { } 
         
         /// <summary>
         /// 模块ID
