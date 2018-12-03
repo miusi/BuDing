@@ -6,7 +6,7 @@ using BuDing.Infrastructure.DataService;
 
 namespace BuDing.Application.Interfaces.Services
 {
-    public interface ISysUserDataService:IDataService<SysUserEntity>
+    public interface ISysUserDataService:IService<SysUserEntity>
     {
 
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BuDing.Application.Interfaces.BusinessLogic
 {
-	interface ISysUserBusinessLogic
+	public interface ISysUserBusinessLogic
 	{
 		Task<SysUserEntity> GetSysUserById(int id);
 
@@ -16,7 +16,7 @@ namespace BuDing.Application.Interfaces.BusinessLogic
 
 		Task<SysUserEntity> Update(SysUserEntity entity);
 
-		Task<int> Delete(SysUserEntity entity);
+		Task Delete(SysUserEntity entity);
 
 		Task<IPagedList<SysUserEntity>> GetPagedList(int pageIndex, int pageSize);
 

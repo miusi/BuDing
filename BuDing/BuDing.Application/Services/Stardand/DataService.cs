@@ -12,7 +12,7 @@ using BuDing.Infrastructure.DataService;
 
 namespace BuDing.Application.Services.Stardand
 {
-    public abstract class DataService<TEntity> : IDataService<TEntity> where TEntity : class, IAggregateRoot
+    public abstract class DataService<TEntity> : IService<TEntity> where TEntity : class, IAggregateRoot
     {
 
 
