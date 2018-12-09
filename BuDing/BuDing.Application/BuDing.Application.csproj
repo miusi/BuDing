@@ -18,7 +18,6 @@
   <ItemGroup>
     <Folder Include="BusinessLogics\Domain\" />
     <Folder Include="BusinessLogics\Standard\" />
-    <Folder Include="Services\Domain\" />
   </ItemGroup>
 
   <ItemGroup>
