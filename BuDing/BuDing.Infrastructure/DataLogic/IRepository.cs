@@ -25,13 +25,13 @@ namespace BuDing.Infrastructure.DataLogic
 
         Task<TEntity> GetEntityByIdAsync(TPrimaryKey id);
 
-        List<TEntity> GetAllList();
+        IList<TEntity> GetAllList();
 
-        Task<List<TEntity>> GetAllListAsync();
+        Task<IList<TEntity>> GetAllListAsync();
 
-        IList<TEntity> GetListCollection(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "");
+        IEnumerable<TEntity> GetEnumerable(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "");
 
-        Task<IList<TEntity>> GetListCollectionAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "");
+        Task<IEnumerable<TEntity>> GetEnumerableAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "");
 
         T Query<T>(Func<IQueryable<TEntity>, T> queryMethod);
 
@@ -44,38 +44,38 @@ namespace BuDing.Infrastructure.DataLogic
 
         Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id);
 
-		IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> filter = null,
-									 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-									 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-									 int pageIndex = 0,
-									 int pageSize = 20,
-									 bool disableTracking = true);
+		//IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> filter = null,
+		//							 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+		//							 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+		//							 int pageIndex = 0,
+		//							 int pageSize = 20,
+		//							 bool disableTracking = true);
 
-		Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> filter = null,
-												 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-												 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-												 int pageIndex = 0,
-												 int pageSize = 20,
-												 bool disableTracking = true,
-												 CancellationToken cancellationToken = default(CancellationToken));
+		//Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> filter = null,
+		//										 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+		//										 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+		//										 int pageIndex = 0,
+		//										 int pageSize = 20,
+		//										 bool disableTracking = true,
+		//										 CancellationToken cancellationToken = default(CancellationToken));
 
 
-		IPagedList<TResult> GetPagedList<TResult>(Expression<Func<TEntity, TResult>> selector,
-												Expression<Func<TEntity, bool>> filter = null,
-												Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-												Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-												int pageIndex = 0,
-												int pageSize = 20,
-												bool disableTracking = true) where TResult : class;
+		//IPagedList<TResult> GetPagedList<TResult>(Expression<Func<TEntity, TResult>> selector,
+		//										Expression<Func<TEntity, bool>> filter = null,
+		//										Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+		//										Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+		//										int pageIndex = 0,
+		//										int pageSize = 20,
+		//										bool disableTracking = true) where TResult : class;
 
-		Task<IPagedList<TResult>> GetPagedListAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
-														 Expression<Func<TEntity, bool>> filter = null,
-														 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-														 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-														 int pageIndex = 0,
-														 int pageSize = 20,
-														 bool disableTracking = true,
-														 CancellationToken cancellationToken = default(CancellationToken)) where TResult : class;
+		//Task<IPagedList<TResult>> GetPagedListAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
+		//												 Expression<Func<TEntity, bool>> filter = null,
+		//												 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+		//												 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+		//												 int pageIndex = 0,
+		//												 int pageSize = 20,
+		//												 bool disableTracking = true,
+		//												 CancellationToken cancellationToken = default(CancellationToken)) where TResult : class;
 
 		#endregion
 

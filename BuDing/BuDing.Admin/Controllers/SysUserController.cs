@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BuDing.Application.Interfaces.BusinessLogic;
+using BuDing.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,8 +11,17 @@ namespace BuDing.Admin.Controllers
 { 
     public class SysUserController : BaseControllerController
     {
-		// GET: api/SysRole
-		[HttpGet]
+        private ISysUserDataService _sysUserDataService;
+
+        public SysUserController(ISysUserDataService sysUserDataService)
+        {
+            this.sysUserDataService = sysUserDataService;
+        }
+
+
+
+        // GET: api/SysRole
+        [HttpGet]
 		public IEnumerable<string> Get()
 		{
 			return new string[] { "value1", "value2" };
@@ -18,9 +29,9 @@ namespace BuDing.Admin.Controllers
 
 		// GET: api/SysRole/5
 		[HttpGet("{id}", Name = "Get")]
-		public string Get(int id)
+		public IActionResult Get(int id)
 		{
-			return "value";
+			return Ok(sysUserBusinessLogic.GetSysUserById(id));
 		}
 
 		// POST: api/SysRole

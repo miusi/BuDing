@@ -19,6 +19,14 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BuDing.Application.Interfaces\BuDing.Application.Interfaces.csproj" />
+    <ProjectReference Include="..\BuDing.Application\BuDing.Application.csproj" />
+    <ProjectReference Include="..\BuDing.Common\BuDing.Common.csproj" />
+    <ProjectReference Include="..\BuDing.Domain\BuDing.Domain.csproj" />
+    <ProjectReference Include="..\BuDing.Infrastructure\BuDing.Infrastructure.csproj" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

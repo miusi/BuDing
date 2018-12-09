@@ -9,10 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BuDing.Application.Repositories.Standard
 {
-	using System.Threading;
 	using BuDing.Infrastructure.DataLogic;
-	using BuDing.Infrastructure.PageList;
-	using Microsoft.EntityFrameworkCore.Query;
+
 
 	public abstract class RepositoryBase<TEntity,TPrimaryKey> : IRepository<TEntity,TPrimaryKey> where TEntity : class,IEntity<TPrimaryKey>,IAggregateRoot<TPrimaryKey>
     {
@@ -30,13 +28,13 @@ namespace BuDing.Application.Repositories.Standard
          
 
 
-        public virtual List<TEntity> GetAllList()
+        public virtual IList<TEntity> GetAllList()
         {
             return GetAll().ToList();
         }
 
 
-        public virtual Task<List<TEntity>> GetAllListAsync()
+        public virtual Task<IList<TEntity>> GetAllListAsync()
         {
             return Task.FromResult(GetAllList());
         }
@@ -56,7 +54,7 @@ namespace BuDing.Application.Repositories.Standard
 
 
 
-	    public virtual IList<TEntity> GetListCollection(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+	    public virtual IEnumerable<TEntity> GetEnumerable(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
 	    {
 	        IQueryable<TEntity> query = GetAll();
 
@@ -75,12 +73,12 @@ namespace BuDing.Application.Repositories.Standard
 	            query = orderBy(query);
 	        }
 
-	        return query.ToList();
+	        return query;
 	    }
 
-	    public virtual Task<IList<TEntity>> GetListCollectionAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+	    public virtual Task<IEnumerable<TEntity>> GetEnumerableAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
 	    {
-	        return Task.FromResult(GetListCollection(filter, orderBy, includeProperties));
+	        return Task.FromResult(GetEnumerable(filter, orderBy, includeProperties));
 	    }
 
 	    public virtual T Query<T>(Func<IQueryable<TEntity>, T> queryMethod)
@@ -214,117 +212,117 @@ namespace BuDing.Application.Repositories.Standard
 	        return Task.FromResult(LongCount(filter));
         }
 
-		public IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int pageIndex = 0, int pageSize = 20, bool disableTracking = true)
-		{
-			IQueryable<TEntity> query = GetAll();
-			if (disableTracking)
-			{
-				query = query.AsNoTracking();
-			}
+		//public IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int pageIndex = 0, int pageSize = 20, bool disableTracking = true)
+		//{
+		//	IQueryable<TEntity> query = GetAll();
+		//	if (disableTracking)
+		//	{
+		//		query = query.AsNoTracking();
+		//	}
 
-			if (include != null)
-			{
-				query = include(query);
-			}
+		//	if (include != null)
+		//	{
+		//		query = include(query);
+		//	}
 
-			if (filter != null)
-			{
-				query = query.Where(filter);
-			}
+		//	if (filter != null)
+		//	{
+		//		query = query.Where(filter);
+		//	}
 
-			if (orderBy != null)
-			{
-				return orderBy(query).ToPagedList(pageIndex, pageSize);
-			}
-			else
-			{
-				return query.ToPagedList(pageIndex, pageSize);
-			}
-		}
+		//	if (orderBy != null)
+		//	{
+		//		return orderBy(query).ToPagedList(pageIndex, pageSize);
+		//	}
+		//	else
+		//	{
+		//		return query.ToPagedList(pageIndex, pageSize);
+		//	}
+		//}
 
-		public Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int pageIndex = 0, int pageSize = 20, bool disableTracking = true, CancellationToken cancellationToken = default(CancellationToken))
-		{
-			IQueryable<TEntity> query = GetAll();
-			if (disableTracking)
-			{
-				query = query.AsNoTracking();
-			}
+		//public Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int pageIndex = 0, int pageSize = 20, bool disableTracking = true, CancellationToken cancellationToken = default(CancellationToken))
+		//{
+		//	IQueryable<TEntity> query = GetAll();
+		//	if (disableTracking)
+		//	{
+		//		query = query.AsNoTracking();
+		//	}
 
-			if (include != null)
-			{
-				query = include(query);
-			}
+		//	if (include != null)
+		//	{
+		//		query = include(query);
+		//	}
 
-			if (filter != null)
-			{
-				query = query.Where(filter);
-			}
+		//	if (filter != null)
+		//	{
+		//		query = query.Where(filter);
+		//	}
 
-			if (orderBy != null)
-			{
-				return orderBy(query).ToPagedListAsync(pageIndex, pageSize, 0, cancellationToken);
-			}
-			else
-			{
-				return query.ToPagedListAsync(pageIndex, pageSize, 0, cancellationToken);
-			}
-		}
+		//	if (orderBy != null)
+		//	{
+		//		return orderBy(query).ToPagedListAsync(pageIndex, pageSize, 0, cancellationToken);
+		//	}
+		//	else
+		//	{
+		//		return query.ToPagedListAsync(pageIndex, pageSize, 0, cancellationToken);
+		//	}
+		//}
 
-		public IPagedList<TResult> GetPagedList<TResult>(Expression<Func<TEntity, TResult>> selector, Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int pageIndex = 0, int pageSize = 20, bool disableTracking = true) where TResult : class
-		{
-			IQueryable<TEntity> query = GetAll();
-			if (disableTracking)
-			{
-				query = query.AsNoTracking();
-			}
+		//public IPagedList<TResult> GetPagedList<TResult>(Expression<Func<TEntity, TResult>> selector, Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int pageIndex = 0, int pageSize = 20, bool disableTracking = true) where TResult : class
+		//{
+		//	IQueryable<TEntity> query = GetAll();
+		//	if (disableTracking)
+		//	{
+		//		query = query.AsNoTracking();
+		//	}
 
-			if (include != null)
-			{
-				query = include(query);
-			}
+		//	if (include != null)
+		//	{
+		//		query = include(query);
+		//	}
 
-			if (filter != null)
-			{
-				query = query.Where(filter);
-			}
+		//	if (filter != null)
+		//	{
+		//		query = query.Where(filter);
+		//	}
 
-			if (orderBy != null)
-			{
-				return orderBy(query).Select(selector).ToPagedList(pageIndex, pageSize);
-			}
-			else
-			{
-				return query.Select(selector).ToPagedList(pageIndex, pageSize);
-			}
-		}
+		//	if (orderBy != null)
+		//	{
+		//		return orderBy(query).Select(selector).ToPagedList(pageIndex, pageSize);
+		//	}
+		//	else
+		//	{
+		//		return query.Select(selector).ToPagedList(pageIndex, pageSize);
+		//	}
+		//}
 
-		public Task<IPagedList<TResult>> GetPagedListAsync<TResult>(Expression<Func<TEntity, TResult>> selector, Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int pageIndex = 0, int pageSize = 20, bool disableTracking = true, CancellationToken cancellationToken = default(CancellationToken)) where TResult : class
-		{
-			IQueryable<TEntity> query = GetAll();
-			if (disableTracking)
-			{
-				query = query.AsNoTracking();
-			}
+		//public Task<IPagedList<TResult>> GetPagedListAsync<TResult>(Expression<Func<TEntity, TResult>> selector, Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int pageIndex = 0, int pageSize = 20, bool disableTracking = true, CancellationToken cancellationToken = default(CancellationToken)) where TResult : class
+		//{
+		//	IQueryable<TEntity> query = GetAll();
+		//	if (disableTracking)
+		//	{
+		//		query = query.AsNoTracking();
+		//	}
 
-			if (include != null)
-			{
-				query = include(query);
-			}
+		//	if (include != null)
+		//	{
+		//		query = include(query);
+		//	}
 
-			if (filter != null)
-			{
-				query = query.Where(filter);
-			}
+		//	if (filter != null)
+		//	{
+		//		query = query.Where(filter);
+		//	}
 
-			if (orderBy != null)
-			{
-				return orderBy(query).Select(selector).ToPagedListAsync(pageIndex, pageSize, 0, cancellationToken);
-			}
-			else
-			{
-				return query.Select(selector).ToPagedListAsync(pageIndex, pageSize, 0, cancellationToken);
-			}
-		}
+		//	if (orderBy != null)
+		//	{
+		//		return orderBy(query).Select(selector).ToPagedListAsync(pageIndex, pageSize, 0, cancellationToken);
+		//	}
+		//	else
+		//	{
+		//		return query.Select(selector).ToPagedListAsync(pageIndex, pageSize, 0, cancellationToken);
+		//	}
+		//}
 
 
 		protected static Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TPrimaryKey id)

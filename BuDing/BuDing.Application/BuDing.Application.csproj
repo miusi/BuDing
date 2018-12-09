@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BuDing.Application.Interfaces\BuDing.Application.Interfaces.csproj" />
     <ProjectReference Include="..\BuDing.Domain\BuDing.Domain.csproj" />
     <ProjectReference Include="..\BuDing.Infrastructure\BuDing.Infrastructure.csproj" />
@@ -23,6 +19,10 @@
     <Folder Include="BusinessLogics\Domain\" />
     <Folder Include="BusinessLogics\Standard\" />
     <Folder Include="Services\Domain\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.4" />
   </ItemGroup>
 
 </Project>

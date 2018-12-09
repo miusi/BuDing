@@ -28,13 +28,14 @@ namespace BuDing.Application.BusinessLogics.Domain
 
 		public Task<IPagedList<SysUserEntity>> GetPagedList(int pageIndex, int pageSize)
 		{
-			return _repository.GetPagedListAsync(null, null, null, pageIndex, pageSize);
+			return Task.FromResult(_repository.GetEnumerable().ToPagedList<SysUserEntity>(pageIndex,pageSize));
 		}
 
 		public Task<IPagedList<SysUserEntity>> GetPagedListByUserName(string userName, int pageIndex, int pageSize)
 		{
-			return _repository.GetPagedListAsync(null, null, null, pageIndex, pageSize);
+            return Task.FromResult(_repository.GetEnumerable(t => t.Name == userName).ToPagedList<SysUserEntity>(pageIndex, pageSize));
 		}
+        
 
 		public Task<SysUserEntity> GetSysUserById(int id)
 		{ 
