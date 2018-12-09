@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BuDing.Infrastructure.PageList
+namespace BuDing.Application.Interfaces.PageList
 {
     public interface IPagedList<T>
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BuDing.Infrastructure.PageList
+namespace BuDing.Application.Interfaces.PageList
 {
    public  static class IQueryablePageListExtensions
     {

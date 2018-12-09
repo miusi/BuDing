@@ -1,5 +1,4 @@
-﻿using BuDing.Infrastructure.PageList;
-using BuDing.Infrastructure.ValidationLogic;
+﻿using BuDing.Infrastructure.ValidationLogic;
 using System;
 using System.Collections.Generic;
 
@@ -26,11 +25,7 @@ namespace BuDing.Infrastructure.DataService
 
 		IList<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);
 
-		Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);
-
-		IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, bool @readonly = false);
-
-		Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, bool @readonly = false);
+		Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false); 
 
 		ValidationResult Add(TEntity entity);
 		 

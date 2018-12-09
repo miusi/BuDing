@@ -1,46 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BuDing.Application.Interfaces.BusinessLogic;
+using BuDing.Application.Interfaces.PageList;
 using BuDing.Application.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
+using BuDing.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BuDing.Admin.Controllers
 { 
     public class SysUserController : BaseControllerController
     {
-        private ISysUserDataService _sysUserDataService;
+        private ISysUserService _sysUserDataService;
 
-        public SysUserController(ISysUserDataService sysUserDataService)
+        public SysUserController(ISysUserService sysUserDataService)
         {
-            this.sysUserDataService = sysUserDataService;
+            this._sysUserDataService = sysUserDataService;
         }
 
 
 
-        // GET: api/SysRole
-        [HttpGet]
-		public IEnumerable<string> Get()
+		// GET: api/SysUser
+		[HttpGet]
+		public IPagedList<SysUserEntity> Get()
 		{
-			return new string[] { "value1", "value2" };
+			return _sysUserDataService.GetPagedList(0, 20);
 		}
 
-		// GET: api/SysRole/5
+		// GET: api/SysUser/5
 		[HttpGet("{id}", Name = "Get")]
 		public IActionResult Get(int id)
 		{
-			return Ok(sysUserBusinessLogic.GetSysUserById(id));
+			return Ok(_sysUserDataService.Get(id));
 		}
 
-		// POST: api/SysRole
+		// POST: api/SysUser
 		[HttpPost]
 		public void Post([FromBody] string value)
 		{
 		}
 
-		// PUT: api/SysRole/5
+		// PUT: api/SysUser/5
 		[HttpPut("{id}")]
 		public void Put(int id, [FromBody] string value)
 		{

@@ -1,32 +1,28 @@
-﻿using System;
+﻿
+using System;
+using System.Linq;
+using System.Linq.Expressions; 
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using BuDing.Application.Context;
-using BuDing.Application.Repositories.Standard;
-using BuDing.Infrastructure;
-using BuDing.Infrastructure.DataLogic;
-using BuDing.Infrastructure.DataService;
-using BuDing.Infrastructure.PageList;
-using BuDing.Infrastructure.ValidationLogic;
-using BuDing.Infrastructure.ValidationLogic.Interfaces;
 
 namespace BuDing.Application.Services.Stardand
 {
-    public abstract class DataService<TEntity> : IService<TEntity> where TEntity : class, IAggregateRoot
-    {
+	using BuDing.Infrastructure;
+	using BuDing.Infrastructure.DataLogic;
+	using BuDing.Infrastructure.DataService; 
+	using BuDing.Infrastructure.ValidationLogic;
+	using BuDing.Infrastructure.ValidationLogic.Interfaces;
 
-
+	public abstract class ServiceBase<TEntity> : IService<TEntity> where TEntity : class, IAggregateRoot
+    {  
         private readonly IUnitOfWork _unitOfWork;
 
         protected readonly IRepository<TEntity> _repository;
 
         private ValidationResult _validationResult;
 
-        protected DataService(IUnitOfWork unitOfWork)
+        protected ServiceBase(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetRepository<TEntity>();
@@ -67,17 +63,7 @@ namespace BuDing.Application.Services.Stardand
         public virtual Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
         {
             return Task.FromResult(Find(predicate, @readonly));
-        }
-
-        public virtual IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, bool @readonly = false)
-        {
-            return _repository.GetEnumerable(predicate).ToPagedList<TEntity>(pageIndex, pageSize);
-        }
-
-        public virtual Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, bool @readonly = false)
-        {
-            return Task.FromResult(GetPagedList(predicate, pageIndex, pageSize));
-        }
+        } 
 
         public virtual ValidationResult Add(TEntity entity)
         {

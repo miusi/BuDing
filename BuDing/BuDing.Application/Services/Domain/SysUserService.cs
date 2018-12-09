@@ -1,17 +1,14 @@
 ﻿
-using BuDing.Application.Interfaces.Services;
-using BuDing.Application.Services.Stardand;
-using BuDing.Domain.Entities;
-using BuDing.Infrastructure.BusinessLogic;
-using BuDing.Infrastructure.DataLogic;
-using BuDing.Infrastructure.PageList;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BuDing.Application.Services.Domain
 {
-	public class SysUserService : DataService<SysUserEntity>,ISysUserDataService
+	using BuDing.Domain.Entities; 
+	using BuDing.Infrastructure.DataLogic;
+	using BuDing.Application.Services.Stardand;
+	using BuDing.Application.Interfaces.Services;
+	using BuDing.Application.Interfaces.PageList;
+
+	public class SysUserService : ServiceBase<SysUserEntity>,ISysUserService
 	{
 		public SysUserService(IUnitOfWork unitOfWork) : base(unitOfWork)
 		{
