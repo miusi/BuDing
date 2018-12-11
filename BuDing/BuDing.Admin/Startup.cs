@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection; 
+
 
 namespace BuDing.Admin
 {
 	using BuDing.Application.IoC;
 	using BuDing.Application.Context;
+	using System.IO;
 
 	public class Startup
 	{
@@ -51,7 +53,22 @@ namespace BuDing.Admin
 			services.ApplicationRepositoryIoC();
 			services.ApplicationServicesIoC();
 			//mvc
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			//Json首字母小写解决
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options=>options.SerializerSettings.ContractResolver=new Newtonsoft.Json.Serialization.DefaultContractResolver());
+			services.AddSwaggerGen(options =>
+			{
+				options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info()
+				{
+					Version = "v1",
+					Title = "BuDing.Admin Api"
+				});
+				//var basePath =  PlatformServices.Default.Application.ApplicationBasePath;
+				////Set the comments path for the swagger json and ui.  
+				//var xmlPath = Path.Combine(basePath, "BuDing.Admin.xml");
+				//options.IncludeXmlComments(xmlPath);
+			});
+
+		
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +86,12 @@ namespace BuDing.Admin
 			app.UseHttpsRedirection();
 			app.UseCors("AllowAllOrigin");
 			app.UseMvc();
+
+			app.UseSwagger();
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "BuDing.Admin API V1");
+			});
 		}
 	}
 }

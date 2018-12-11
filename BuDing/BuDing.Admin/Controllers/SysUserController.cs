@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuDing.Admin.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SysUserController : BaseController
-    {
+	[Route("api/[controller]")]
+	[ApiController]
+	public class SysUserController : BaseController
+	{
 		private ISysUserService sysUserService;
 
 		public SysUserController(ISysUserService sysUserService)
@@ -20,37 +20,43 @@ namespace BuDing.Admin.Controllers
 			this.sysUserService = sysUserService;
 		}
 
-        // GET: api/SysUser
-        [HttpGet]
-        public IEnumerable<SysUserEntity> Get()
-        {
-            return sysUserService.Find(null);
-        }
+		// GET: api/SysUser
+		[HttpGet]
+		public IEnumerable<SysUserEntity> Get()
+		{
+			return sysUserService.Find(null);
+		}
 
-        // GET: api/SysUser/5
-        [HttpGet("{id}", Name = "Get")]
-        public SysUserEntity Get(int id)
-        {
-            return sysUserService.Get(id);
-        }
+		//[HttpGet("{username}", Name = "Get")]
+		//public IEnumerable<SysUserEntity> Get(string username)
+		//{
+		//	return sysUserService.Find(t => t.Name == username);
+		//}
 
-        // POST: api/SysUser
-        [HttpPost]
-        public void Post([FromBody] SysUserEntity entity)
-        {
-        }
+		// GET: api/SysUser/5
+		[HttpGet("{id}", Name = "Get")]
+		public SysUserEntity Get(int id)
+		{
+			return sysUserService.Get(id);
+		}
 
-        // PUT: api/SysUser/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] SysUserEntity entity)
-        {
-        }
+		// POST: api/SysUser
+		[HttpPost]
+		public void Post([FromBody] SysUserEntity entity)
+		{
+		}
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+		// PUT: api/SysUser/5
+		[HttpPut("{id}")]
+		public void Put(int id, [FromBody] SysUserEntity entity)
+		{
+		}
+
+		// DELETE: api/ApiWithActions/5
+		[HttpDelete("{id}")]
+		public void Delete(int id)
+		{
 			sysUserService.Delete(id);
-        }
-    }
+		}
+	}
 }
