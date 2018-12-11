@@ -23,6 +23,8 @@ namespace BuDing.Domain.Configurations
  		public void Configure(EntityTypeBuilder<SysUserEntity> builder)
 		{
 
+			builder.ToTable("sys_user", "buding");
+
 				builder.HasKey(e => e.ID);	
  
         builder.Property(e => e.ID).HasColumnName("ID") 

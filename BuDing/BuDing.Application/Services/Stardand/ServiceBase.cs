@@ -14,7 +14,7 @@ namespace BuDing.Application.Services.Stardand
 	using BuDing.Infrastructure.ValidationLogic;
 	using BuDing.Infrastructure.ValidationLogic.Interfaces;
 
-	public abstract class ServiceBase<TEntity> : IService<TEntity> where TEntity : class, IAggregateRoot
+	public class ServiceBase<TEntity> : IService<TEntity> where TEntity : class, IAggregateRoot
     {  
         private readonly IUnitOfWork _unitOfWork;
 
@@ -55,12 +55,12 @@ namespace BuDing.Application.Services.Stardand
             return _repository.GetAllListAsync();
         }
 
-        public virtual IList<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
+        public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
         {
             return _repository.GetEnumerable(predicate).ToList();
         }
 
-        public virtual Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
+        public virtual Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
         {
             return Task.FromResult(Find(predicate, @readonly));
         } 
@@ -113,5 +113,19 @@ namespace BuDing.Application.Services.Stardand
         {
             throw new NotImplementedException();
         }
-    }
+
+		public ValidationResult Delete(int id)
+		{
+			if (!ValidationResult.IsValid)
+				return ValidationResult;
+
+			_repository.Delete(id);
+			return _validationResult;
+		}
+
+		public Task<ValidationResult> DeleteAsync(int id)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

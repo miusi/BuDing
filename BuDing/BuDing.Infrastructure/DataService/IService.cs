@@ -23,9 +23,9 @@ namespace BuDing.Infrastructure.DataService
 
 		Task<IList<TEntity>> AllAsync(bool @readonly = false);
 
-		IList<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);
+		IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);
 
-		Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false); 
+		Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false); 
 
 		ValidationResult Add(TEntity entity);
 		 
@@ -35,5 +35,9 @@ namespace BuDing.Infrastructure.DataService
 		Task<ValidationResult> UpdateAsync(TEntity entity);
 		ValidationResult Delete(TEntity entity);
 		Task<ValidationResult> DeleteAsync(TEntity entity);
+
+		ValidationResult Delete(TPrimaryKey id);
+
+		Task<ValidationResult> DeleteAsync(TPrimaryKey id);
 	}
 }
