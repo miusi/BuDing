@@ -12,6 +12,7 @@ namespace BuDing.Admin
 	using BuDing.Application.IoC;
 	using BuDing.Application.Context;
 	using System.IO;
+	using Microsoft.AspNetCore.Http;
 
 	public class Startup
 	{
@@ -25,6 +26,9 @@ namespace BuDing.Admin
 			Configuration = builder.Build(); 
 		}
 
+		/// <summary>
+		/// 配置信息项
+		/// </summary>
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
@@ -54,7 +58,11 @@ namespace BuDing.Admin
 			services.ApplicationServicesIoC();
 			//mvc
 			//Json首字母小写解决
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options=>options.SerializerSettings.ContractResolver=new Newtonsoft.Json.Serialization.DefaultContractResolver());
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			//.AddJsonOptions(options=>options.SerializerSettings.ContractResolver=new Newtonsoft.Json.Serialization.DefaultContractResolver())
+			//ASP.NET Core中提供了一个IHttpContextAccessor接口，HttpContextAccessor 默认实现了它简化了访问HttpContext。
+			//它必须在程序启动时在IServicesCollection中注册，这样在程序中就能获取到HttpContextAccessor，并用来访问HttpContext。
+			//services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddSwaggerGen(options =>
 			{
 				options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info()
