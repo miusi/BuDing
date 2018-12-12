@@ -9,29 +9,39 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuDing.Admin.Controllers
 {
+
+	/// <summary> 
+	/// 
+	/// </summary>
 	[Route("api/[controller]")]
 	[ApiController]
 	public class SysUserController : BaseController
 	{
 		private ISysUserService sysUserService;
 
+		private IHttpContextAccessor _accessor;
+		/// <summary>
+		/// 构造函数
+		/// </summary>
+		/// <param name="sysUserService">系统用户服务对象</param> 
 		public SysUserController(ISysUserService sysUserService)
 		{
-			this.sysUserService = sysUserService;
+			this.sysUserService = sysUserService; 
+
 		}
 
+		/// <summary>
+		/// 获取对象
+		/// </summary>
+		/// <returns></returns>
 		// GET: api/SysUser
 		[HttpGet]
 		public IEnumerable<SysUserEntity> Get()
-		{
+		{ 
 			return sysUserService.Find(null);
 		}
 
-		//[HttpGet("{username}", Name = "Get")]
-		//public IEnumerable<SysUserEntity> Get(string username)
-		//{
-		//	return sysUserService.Find(t => t.Name == username);
-		//}
+	 
 
 		// GET: api/SysUser/5
 		[HttpGet("{id}", Name = "Get")]
@@ -40,6 +50,10 @@ namespace BuDing.Admin.Controllers
 			return sysUserService.Get(id);
 		}
 
+		/// <summary>
+		/// 新增
+		/// </summary>
+		/// <param name="entity">系统</param>
 		// POST: api/SysUser
 		[HttpPost]
 		public void Post([FromBody] SysUserEntity entity)
