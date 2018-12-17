@@ -7,13 +7,8 @@
   <ItemGroup>
     <ProjectReference Include="..\BuDing.Domain\BuDing.Domain.csproj" />
     <ProjectReference Include="..\BuDing.Infrastructure\BuDing.Infrastructure.csproj" />
-  </ItemGroup>
-
-<<<<<<< HEAD
-=======
+  </ItemGroup> 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.4" />
-  </ItemGroup>
-
->>>>>>> c7747ad702ae94245d36a983112b60290acbbf20
+  </ItemGroup> 
 </Project>

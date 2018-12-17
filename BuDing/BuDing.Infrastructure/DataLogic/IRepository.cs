@@ -1,9 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------
+// <copyright file="IRepository.cs">
+// * Copyright (C) 2018 Godric All Rights Reserved
+// * version : 4.0.30319.42000 
+// * FileName: IRepository.cs 
+// </copyright>
+//-----------------------------------------------------------------------
+
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BuDing.Infrastructure.DataLogic
 {
@@ -11,8 +18,17 @@ namespace BuDing.Infrastructure.DataLogic
     {
     }
 
+    /// <summary>
+    /// 仓储接口
+    /// </summary>
+    /// <typeparam name="TEntity">实体</typeparam>
+    /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     public interface IRepository<TEntity, TPrimaryKey>  where TEntity : class, IEntity<TPrimaryKey>,IAggregateRoot<TPrimaryKey>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="table"></param>
         void ChangeTable(string table);
 
         #region Select 
@@ -40,41 +56,7 @@ namespace BuDing.Infrastructure.DataLogic
         Task<TEntity> FisrtOrDefaultAsync(Expression<Func<TEntity, bool>> filter);
 
 
-        Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id);
-
-		//IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> filter = null,
-		//							 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-		//							 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-		//							 int pageIndex = 0,
-		//							 int pageSize = 20,
-		//							 bool disableTracking = true);
-
-		//Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> filter = null,
-		//										 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-		//										 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-		//										 int pageIndex = 0,
-		//										 int pageSize = 20,
-		//										 bool disableTracking = true,
-		//										 CancellationToken cancellationToken = default(CancellationToken));
-
-
-		//IPagedList<TResult> GetPagedList<TResult>(Expression<Func<TEntity, TResult>> selector,
-		//										Expression<Func<TEntity, bool>> filter = null,
-		//										Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-		//										Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-		//										int pageIndex = 0,
-		//										int pageSize = 20,
-		//										bool disableTracking = true) where TResult : class;
-
-		//Task<IPagedList<TResult>> GetPagedListAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
-		//												 Expression<Func<TEntity, bool>> filter = null,
-		//												 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-		//												 Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-		//												 int pageIndex = 0,
-		//												 int pageSize = 20,
-		//												 bool disableTracking = true,
-		//												 CancellationToken cancellationToken = default(CancellationToken)) where TResult : class;
-
+        Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id); 
 		#endregion
 
 		#region Insert
