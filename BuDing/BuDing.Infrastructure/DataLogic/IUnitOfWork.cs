@@ -15,7 +15,7 @@ namespace BuDing.Infrastructure.DataLogic
 	    /// This only been used for supporting multiple databases in the same model. This require the databases in the same machine.
 	    /// </remarks>
 	    void ChangeDatabase(string database);
-
+		 
 	    /// <summary>
 	    /// Gets the specified repository for the <typeparamref name="TEntity"/>.
 	    /// </summary>
@@ -26,13 +26,13 @@ namespace BuDing.Infrastructure.DataLogic
 
         int SaveChanges();
 
-	    Task<int> SaveChangesAsync();
+	    //Task<int> SaveChangesAsync();
 
         int ExecuteSqlCommand(string sql, params object[] parameters);
 
         IList<TEntity> GetWithRawSql<TEntity>(string query, params object[] parameters) where TEntity : class, IAggregateRoot;
 
-	    Task<IList<TEntity>> GetWithRawSqlAsync<TEntity>(string query, params object[] parameters) where TEntity : class, IAggregateRoot;
+	    //Task<IList<TEntity>> GetWithRawSqlAsync<TEntity>(string query, params object[] parameters) where TEntity : class, IAggregateRoot;
 
     }
 }

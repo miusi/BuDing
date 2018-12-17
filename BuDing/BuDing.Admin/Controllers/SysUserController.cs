@@ -58,6 +58,10 @@ namespace BuDing.Admin.Controllers
 		[HttpPost]
 		public void Post([FromBody] SysUserEntity entity)
 		{
+			if (entity != null)
+			{  
+				sysUserService.Add(entity);
+			}
 		}
 
 		// PUT: api/SysUser/5
@@ -71,6 +75,19 @@ namespace BuDing.Admin.Controllers
 		public void Delete(int id)
 		{
 			sysUserService.Delete(id);
+		}
+
+		/// <summary>
+		/// 登陆
+		/// </summary>
+		/// <param name="username">用户名</param>
+		/// <param name="password">密码</param>
+		/// <returns></returns>
+		[HttpPost]
+		[Route("api/SysUser/Login")]
+		public IActionResult Login(string username,string password)
+		{
+			return Ok(sysUserService.Login(username, password));
 		}
 	}
 }

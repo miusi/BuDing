@@ -34,10 +34,10 @@ namespace BuDing.Application
 	        return _dbContext.SaveChanges();
 	    }
 
-	    public Task<int> SaveChangesAsync()
-	    {
-	        return _dbContext.SaveChangesAsync();
-	    }
+	    //public Task<int> SaveChangesAsync()
+	    //{
+	    //    return _dbContext.SaveChangesAsync();
+	    //}
 
 	    /// <summary>
 	    /// Executes the specified raw SQL command.
@@ -52,10 +52,10 @@ namespace BuDing.Application
             return _dbContext.Set<TEntity>().FromSql(query, parameters).ToList();
         }
 
-	    public Task<IList<TEntity>> GetWithRawSqlAsync<TEntity>(string query, params object[] parameters) where TEntity : class, IAggregateRoot
-	    {
-	        return Task.FromResult(GetWithRawSql<TEntity>(query,parameters));
-	    }
+	    //public Task<IList<TEntity>> GetWithRawSqlAsync<TEntity>(string query, params object[] parameters) where TEntity : class, IAggregateRoot
+	    //{
+	    //    return Task.FromResult(GetWithRawSql<TEntity>(query,parameters));
+	    //}
 
 	    public void ChangeDatabase(string database)
 	    {

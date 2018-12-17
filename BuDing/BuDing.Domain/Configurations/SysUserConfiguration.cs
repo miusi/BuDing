@@ -95,6 +95,6 @@ namespace BuDing.Domain.Configurations
 				.HasMaxLength(50)
 ;
 
-		}
+		} 
     }
 }
