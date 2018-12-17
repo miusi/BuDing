@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
-using BuDing.Infrastructure.PageList;
+using System.Threading.Tasks; 
 
 namespace BuDing.Infrastructure.DataService
 {
@@ -16,15 +15,15 @@ namespace BuDing.Infrastructure.DataService
 	{
 		TEntity Get(TPrimaryKey id, bool @readonly = false);
 
-		Task<TEntity> GetAsync(TPrimaryKey id, bool @readonly = false);
+		//Task<TEntity> GetAsync(TPrimaryKey id, bool @readonly = false);
 
 		IList<TEntity> All(bool @readonly = false);
 
-		Task<IList<TEntity>> AllAsync(bool @readonly = false);
+		//Task<IList<TEntity>> AllAsync(bool @readonly = false);
 
 		IList<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);
 
-		Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false); 
+		//Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false); 
 
 	}
 }

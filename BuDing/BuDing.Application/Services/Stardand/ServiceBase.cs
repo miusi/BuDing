@@ -1,8 +1,7 @@
 ﻿
 using System;
 using System.Linq;
-using System.Linq.Expressions; 
-using System.Threading.Tasks;
+using System.Linq.Expressions;  
 using System.Collections.Generic;
 
 
@@ -15,8 +14,8 @@ namespace BuDing.Application.Services.Stardand
 	using BuDing.Infrastructure.ValidationLogic.Interfaces;
 
 	public class ServiceBase<TEntity> : IService<TEntity> where TEntity : class, IAggregateRoot
-    {  
-        private readonly IUnitOfWork _unitOfWork;
+    {
+        protected readonly IUnitOfWork _unitOfWork;
 
         protected readonly IRepository<TEntity> _repository;
 
@@ -39,32 +38,18 @@ namespace BuDing.Application.Services.Stardand
         {
             return _repository.GetEntityById(id);
         }
-
-        public virtual Task<TEntity> GetAsync(int id, bool @readonly = false)
-        {
-            return _repository.GetEntityByIdAsync(id);
-        }
-
-        public virtual IList<TEntity> All(bool @readonly = false)
+         
+        public virtual IEnumerable<TEntity> All(bool @readonly = false)
         {
             return _repository.GetAllList();
         }
-
-        public virtual Task<IList<TEntity>> AllAsync(bool @readonly = false)
-        {
-            return _repository.GetAllListAsync();
-        }
+         
 
         public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
         {
             return _repository.GetEnumerable(predicate).ToList();
         }
-
-        public virtual Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
-        {
-            return Task.FromResult(Find(predicate, @readonly));
-        } 
-
+         
         public virtual ValidationResult Add(TEntity entity)
         {
             if (!ValidationResult.IsValid)
@@ -78,11 +63,7 @@ namespace BuDing.Application.Services.Stardand
             _repository.Insert(entity);
             return _validationResult;
         }
-
-        public Task<ValidationResult> AddAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
+         
 
         public virtual ValidationResult Update(TEntity entity)
         {
@@ -94,11 +75,7 @@ namespace BuDing.Application.Services.Stardand
             _repository.Update(entity);
             return _validationResult;
         }
-
-        public virtual Task<ValidationResult> UpdateAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
+         
 
         public ValidationResult Delete(TEntity entity)
         {
@@ -108,12 +85,7 @@ namespace BuDing.Application.Services.Stardand
             _repository.Delete(entity);
             return _validationResult;
         }
-
-        public Task<ValidationResult> DeleteAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
+         
 		public ValidationResult Delete(int id)
 		{
 			if (!ValidationResult.IsValid)
@@ -122,10 +94,6 @@ namespace BuDing.Application.Services.Stardand
 			_repository.Delete(id);
 			return _validationResult;
 		}
-
-		public Task<ValidationResult> DeleteAsync(int id)
-		{
-			throw new NotImplementedException();
-		}
+         
 	}
 }
