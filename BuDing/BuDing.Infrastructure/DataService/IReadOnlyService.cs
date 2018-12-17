@@ -24,11 +24,7 @@ namespace BuDing.Infrastructure.DataService
 
 		IList<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);
 
-		Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);
-
-		IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, bool @readonly = false);
-
-		Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, bool @readonly = false);
+		Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false); 
 
 	}
 }

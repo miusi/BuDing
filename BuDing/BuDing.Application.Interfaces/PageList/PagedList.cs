@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Linq; 
 
-namespace BuDing.Infrastructure.PageList
+namespace BuDing.Application.Interfaces.PageList
 {
     public class PagedList<T> : IPagedList<T>
     {

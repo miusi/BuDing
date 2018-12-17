@@ -2,36 +2,67 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BuDing.Application.Interfaces.Services;
+using BuDing.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BuDing.Admin.Controllers
-{ 
-    public class SysUserController : BaseControllerController
-    {
-		// GET: api/SysRole
+{
+
+	/// <summary> 
+	/// 
+	/// </summary>
+	[Route("api/[controller]")]
+	[ApiController]
+	public class SysUserController : BaseController
+	{
+		private ISysUserService sysUserService;
+
+		private IHttpContextAccessor _accessor;
+		/// <summary>
+		/// 构造函数
+		/// </summary>
+		/// <param name="sysUserService">系统用户服务对象</param> 
+		public SysUserController(ISysUserService sysUserService)
+		{
+			this.sysUserService = sysUserService; 
+
+		}
+
+		/// <summary>
+		/// 获取对象
+		/// </summary>
+		/// <returns></returns>
+		// GET: api/SysUser
 		[HttpGet]
-		public IEnumerable<string> Get()
-		{
-			return new string[] { "value1", "value2" };
+		public IEnumerable<SysUserEntity> Get()
+		{ 
+			return sysUserService.Find(null);
 		}
 
-		// GET: api/SysRole/5
+	 
+
+		// GET: api/SysUser/5
 		[HttpGet("{id}", Name = "Get")]
-		public string Get(int id)
+		public SysUserEntity Get(int id)
 		{
-			return "value";
+			return sysUserService.Get(id);
 		}
 
-		// POST: api/SysRole
+		/// <summary>
+		/// 新增
+		/// </summary>
+		/// <param name="entity">系统</param>
+		// POST: api/SysUser
 		[HttpPost]
-		public void Post([FromBody] string value)
+		public void Post([FromBody] SysUserEntity entity)
 		{
 		}
 
-		// PUT: api/SysRole/5
+		// PUT: api/SysUser/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public void Put(int id, [FromBody] SysUserEntity entity)
 		{
 		}
 
@@ -39,6 +70,7 @@ namespace BuDing.Admin.Controllers
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{
+			sysUserService.Delete(id);
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace BuDing.Admin.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
 	[EnableCors("AllowAllOrigin")]
-	public class BaseControllerController : ControllerBase
+	public class BaseController : ControllerBase
     {
     }
 }
