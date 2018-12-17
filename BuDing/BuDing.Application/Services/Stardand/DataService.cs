@@ -1,24 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
-using BuDing.Application.Context;
-using BuDing.Application.Repositories.Standard;
+using System.Threading.Tasks; 
 using BuDing.Infrastructure;
 using BuDing.Infrastructure.DataLogic;
 using BuDing.Infrastructure.DataService;
+using BuDing.Infrastructure.PageList;
+using BuDing.Infrastructure.ValidationLogic;
+using BuDing.Infrastructure.ValidationLogic.Interfaces;
 
 namespace BuDing.Application.Services.Stardand
 {
     public abstract class DataService<TEntity> : IService<TEntity> where TEntity : class, IAggregateRoot
     {
 
+     
 
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ValidationResult _validationResult;
 
-        private readonly IRepository<TEntity> _repository;
+        internal readonly IUnitOfWork _unitOfWork;
+
+        internal readonly IRepository<TEntity> _repository;
 
         protected DataService(IUnitOfWork unitOfWork)
         {
@@ -27,162 +31,133 @@ namespace BuDing.Application.Services.Stardand
         }
 
 
-        public IQueryable<TEntity> GetAll()
-        {
-            return _repository.GetAll();
-        }
-
-        public TEntity GetEntityById(int id)
+        public TEntity Get(int id, bool @readonly = false)
         {
             return _repository.GetEntityById(id);
         }
 
-        public Task<TEntity> GetEntityByIdAsync(int id)
+        public Task<TEntity> GetAsync(int id, bool @readonly = false)
         {
             return _repository.GetEntityByIdAsync(id);
         }
 
-        public List<TEntity> GetAllList()
+        public IList<TEntity> All(bool @readonly = false)
         {
-            return _repository.GetAllList();
+            return _repository.GetListCollection();
         }
 
-        public Task<List<TEntity>> GetAllListAsync()
+        public Task<IList<TEntity>> AllAsync(bool @readonly = false)
         {
-            return _repository.GetAllListAsync();
+            return _repository.GetListCollectionAsync();
         }
 
-        public IList<TEntity> GetListCollection(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        public IList<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
         {
-            return _repository.GetListCollection(filter, orderBy, includeProperties);
+            return _repository.GetListCollection(predicate);
         }
 
-        public Task<IList<TEntity>> GetListCollectionAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        public Task<IList<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false)
         {
-            return _repository.GetListCollectionAsync(filter, orderBy, includeProperties);
+            return _repository.GetListCollectionAsync(predicate);
         }
 
-        public T Query<T>(Func<IQueryable<TEntity>, T> queryMethod)
+        public IPagedList<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, bool @readonly = false)
         {
-            return _repository.Query(queryMethod);
+            return _repository.GetPagedList(predicate, null, null, pageIndex, pageSize);
         }
 
-        public TEntity FirstOrDefault(int id)
+        public Task<IPagedList<TEntity>> GetPagedListAsync(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, bool @readonly = false)
         {
-            return _repository.FirstOrDefault(id);
+            return _repository.GetPagedListAsync(predicate, null, null, pageIndex, pageSize);
         }
 
-        public TEntity FisrtOrDefault(Expression<Func<TEntity, bool>> filter)
+        private ValidationResult ValidationResult
         {
-            return _repository.FisrtOrDefault(filter);
+            get { return _validationResult; }
+        }
+        public ValidationResult Add(TEntity entity)
+        {
+            if (!ValidationResult.IsValid)
+                return ValidationResult;
+
+            var selfValidationEntity = entity as ISelfValidation;
+            if (selfValidationEntity != null && !selfValidationEntity.IsValid)
+                return selfValidationEntity.ValidationResult;
+
+
+            _repository.Insert(entity);
+            return _validationResult;
         }
 
-        public Task<TEntity> FisrtOrDefaultAsync(Expression<Func<TEntity, bool>> filter)
+
+        public Task<ValidationResult> AddAsync(TEntity entity)
         {
-            return _repository.FisrtOrDefaultAsync(filter);
+            if (!ValidationResult.IsValid)
+                return Task.FromResult(ValidationResult);
+
+            var selfValidationEntity = entity as ISelfValidation;
+            if (selfValidationEntity != null && !selfValidationEntity.IsValid)
+                return Task.FromResult(selfValidationEntity.ValidationResult);
+
+
+            _repository.Insert(entity);
+            return Task.FromResult(_validationResult);
         }
 
-        public Task<TEntity> FirstOrDefaultAsync(int id)
+        public ValidationResult Update(TEntity entity)
         {
-            return _repository.FirstOrDefaultAsync(id);
+            if (!ValidationResult.IsValid)
+                return ValidationResult;
+
+            var selfValidationEntity = entity as ISelfValidation;
+            if (selfValidationEntity != null && !selfValidationEntity.IsValid)
+                return selfValidationEntity.ValidationResult;
+
+
+            _repository.Update(entity);
+            return _validationResult;
         }
 
-        public IList<TEntity> GetWithRawSql(string query, params object[] parameters)
+        public Task<ValidationResult> UpdateAsync(TEntity entity)
         {
-            return _unitOfWork.GetWithRawSql<TEntity>(query, parameters);
+            if (!ValidationResult.IsValid)
+                return Task.FromResult(ValidationResult);
+
+            var selfValidationEntity = entity as ISelfValidation;
+            if (selfValidationEntity != null && !selfValidationEntity.IsValid)
+                return Task.FromResult(selfValidationEntity.ValidationResult);
+
+
+            _repository.UpdateAsync(entity);
+            return Task.FromResult(_validationResult);
         }
 
-        public Task<IList<TEntity>> GetWithRawSqlAsync(string query, params object[] parameters)
+        public  ValidationResult Delete(TEntity entity)
         {
-            return _unitOfWork.GetWithRawSqlAsync<TEntity>(query, parameters);
-        }
+            if (!ValidationResult.IsValid)
+                return ValidationResult;
 
-        public TEntity Insert(TEntity entity)
-        {
-            var ent = _repository.Insert(entity);
-            _unitOfWork.SaveChanges();
-            return ent;
-        }
+            var selfValidationEntity = entity as ISelfValidation;
+            if (selfValidationEntity != null && !selfValidationEntity.IsValid)
+                return selfValidationEntity.ValidationResult;
 
-        public Task<TEntity> InertAsync(TEntity entity)
-        {
-            var ent = _repository.InertAsync(entity);
-            _unitOfWork.SaveChanges();
-            return ent;
-        }
 
-        public int InsertAndGetId(TEntity entity)
-        {
-            var result = _repository.InsertAndGetId(entity);
-            _unitOfWork.SaveChanges();
-            return result;
-        }
-
-        public Task<int> InsertAndGetIdAsync(TEntity entity)
-        {
-            var result = _repository.InsertAndGetIdAsync(entity);
-            _unitOfWork.SaveChangesAsync();
-            return result;
-        }
-
-        public TEntity Update(TEntity entityToUpdate)
-        {
-            var entity = _repository.Update(entityToUpdate);
-            _unitOfWork.SaveChanges();
-            return entity;
-        }
-
-        public Task<TEntity> UpdateAsync(TEntity entityToUpdate)
-        {
-            var entity = _repository.UpdateAsync(entityToUpdate);
-            _unitOfWork.SaveChangesAsync();
-            return entity;
-        }
-
-        public int UpdateFields(string query, params object[] parameters)
-        {
-            var result = _unitOfWork.ExecuteSqlCommand(query, parameters);
-            result= _unitOfWork.SaveChanges();
-            return result;
-        }
-
-        public void Delete(TEntity entity)
-        {
             _repository.Delete(entity);
-            _unitOfWork.SaveChanges();
+            return _validationResult;
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public Task<ValidationResult> DeleteAsync(TEntity entity)
         {
-            var result = _repository.DeleteAsync(entity);
-            result = _unitOfWork.SaveChangesAsync();
-            return result;
-        }
+            if (!ValidationResult.IsValid)
+                return Task.FromResult(ValidationResult);
 
-        public void Delete(int id)
-        {
-            _repository.Delete(id);
-            _unitOfWork.SaveChanges();
-        }
+            var selfValidationEntity = entity as ISelfValidation;
+            if (selfValidationEntity != null && !selfValidationEntity.IsValid)
+                return Task.FromResult(selfValidationEntity.ValidationResult);
 
-        public Task DeleteAsync(int id)
-        {
-            var result= _repository.DeleteAsync(id);
-            result = _unitOfWork.SaveChangesAsync();
-            return result;
-        }
 
-        public void Delete(Expression<Func<TEntity, bool>> filter)
-        {
-            _repository.Delete(filter);
-            _unitOfWork.SaveChanges();
-        }
-
-        public Task DeleteAsync(Expression<Func<TEntity, bool>> filter)
-        {
-            var result = _repository.DeleteAsync(filter);
-            result= _unitOfWork.SaveChangesAsync();
-            return result;
+            _repository.Delete(entity);
+            return Task.FromResult(_validationResult);
         }
     }
 }

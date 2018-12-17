@@ -9,8 +9,4 @@
     <ProjectReference Include="..\BuDing.Infrastructure\BuDing.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
