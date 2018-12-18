@@ -29,7 +29,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BuDing.Application.Interfaces\BuDing.Application.Interfaces.csproj" />
     <ProjectReference Include="..\BuDing.Application\BuDing.Application.csproj" />
-    <ProjectReference Include="..\BuDing.Common\BuDing.Common.csproj" />
     <ProjectReference Include="..\BuDing.Domain\BuDing.Domain.csproj" />
     <ProjectReference Include="..\BuDing.Infrastructure\BuDing.Infrastructure.csproj" />
   </ItemGroup>
