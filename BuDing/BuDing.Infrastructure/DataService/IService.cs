@@ -44,16 +44,16 @@ namespace BuDing.Infrastructure.DataService
         /// </summary>
         /// <param name="readonly">是否只读</param>
         /// <returns></returns>
-        IEnumerable<TEntity> All(bool @readonly = false); 
+        IEnumerable<TEntity> All(bool @readonly = false);
 		//Task<IList<TEntity>> AllAsync(bool @readonly = false); 
 
-        /// <summary>
-        /// 根据条件搜索实体
-        /// </summary>
-        /// <param name="predicate">查询条件</param>
-        /// <param name="readonly">是否只读</param>
-        /// <returns></returns>
-		IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);
+		/// <summary>
+		/// 根据条件搜索实体
+		/// </summary>
+		/// <param name="predicate">查询条件</param>
+		/// <param name="readonly">是否只读</param>
+		/// <returns></returns>
+		IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate = null, bool @readonly = false);
         //Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool @readonly = false);  
         /// <summary>
         /// 新增

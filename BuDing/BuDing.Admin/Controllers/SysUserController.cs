@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BuDing.Application.Interfaces.PageList;
 using BuDing.Application.Interfaces.Services;
 using BuDing.Domain.Entities;
+using BuDing.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,9 +38,13 @@ namespace BuDing.Admin.Controllers
 		/// <returns></returns>
 		// GET: api/SysUser
 		[HttpGet]
-		public IEnumerable<SysUserEntity> Get()
-		{ 
-			return sysUserService.Find(null);
+		public IActionResult  Get()
+		{
+			JsonResult<IPagedList<SysUserEntity>> result = new JsonResult<IPagedList<SysUserEntity>>();
+			result.Status = true;
+			result.StatusCode = "200";
+			result.Data = sysUserService.Find().ToPagedList<SysUserEntity>(0,20); 
+			return Ok(result);
 		}
 
 	 
